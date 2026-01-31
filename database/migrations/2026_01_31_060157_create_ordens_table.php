@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ordens', function (Blueprint $table) {
+        Schema::create('ordenes', function (Blueprint $table) {
             $table->id();
             $table->string('id_orden',50)->unique();
             $table->foreignId('id_cliente')->constrained('clientes')->onDelete('restrict');
-            $table->foreignId('id_usuario')->constrained('usuarios')->onDelete('restrict');
+            $table->foreignId('id_usuario')->constrained('users')->onDelete('restrict');
             $table->string('estado', 20)->default('pendiente');
             $table->decimal('total', 10, 2)->default(0);
             $table->timestamps();
