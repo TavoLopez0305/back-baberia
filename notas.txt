@@ -1,0 +1,48 @@
+🧑‍💼 Roles
+Tabla: roles
+Campos: (id PK técnico, nombre string, descripcion string nullable, activo boolean, created_at, updated_at)
+Descripción: Define los roles del sistema que controlan el acceso y permisos (administrador, empleado, etc.).
+
+👤 Usuarios
+Tabla: users
+Campos: (id PK técnico, id_user string unique ID de negocio, id_rol FK → roles.id, nombre string, email string unique, password string, activo boolean, created_at, updated_at)
+Descripción: Usuarios que acceden al sistema administrativo y operan el sistema según su rol.
+
+🧑 Clientes
+Tabla: clientes
+Campos: (id PK técnico, id_cliente string unique ID de negocio, nombre string, apellido string nullable, correo string nullable unique, telefono string, notas text nullable, created_at, updated_at)
+Descripción: Clientes de la barbería, identificados por un ID de negocio y usados para citas y órdenes (no acceden al sistema).
+
+🧴 Productos
+Tabla: productos
+Campos: (id PK técnico, id_producto string unique ID de negocio, nombre string, descripcion text, precio decimal, moneda string, activo boolean, created_at, updated_at)
+Descripción: Servicios o productos ofrecidos por la barbería que pueden ser vendidos y asociados a órdenes.
+
+🧾 Órdenes
+Tabla: ordenes
+Campos: (id PK técnico, id_orden string unique ID de negocio, id_cliente FK → clientes.id, id_usuario FK → users.id, estado string pendiente|pagada|cancelada, total decimal, created_at, updated_at)
+Descripción: Registro de ventas realizadas, identificadas por un ID de negocio y asociadas a clientes y usuarios.
+
+📦 Orden Productos
+Tabla: orden_productos
+Campos: (id PK técnico, id_orden FK → ordenes.id, id_producto FK → productos.id, nombre_producto string snapshot, precio decimal snapshot, cantidad integer, created_at, updated_at)
+Descripción: Detalle de los productos incluidos en una orden, conservando información histórica aunque el producto cambie.
+
+📅 Citas
+Tabla: citas
+Campos: (id PK técnico, id_cita string unique ID de negocio, id_cliente FK → clientes.id, id_sucursal FK → sucursales.id, id_cita_reagendada FK → citas.id nullable, fecha_hora datetime, fecha_hora_reagenda datetime nullable, estado string programada|reagendada|completada|cancelada, notas text nullable, created_at, updated_at)
+Descripción: Reservas de clientes para servicios, con historial completo de reagendamientos sin sobrescribir datos.
+
+🏪 Sucursales
+Tabla: sucursales
+Campos: (id PK técnico, id_sucursal string unique ID de negocio, nombre string, direccion string, telefono string, activo boolean, created_at, updated_at)
+Descripción: Ubicaciones físicas de la barbería donde se realizan citas y operaciones.
+
+🧾 Pagos
+
+Tabla: pagos
+Campos:
+(id PK técnico, id_pago string unique ID de negocio, id_orden FK → ordenes.id, monto decimal, metodo string efectivo|tarjeta|transferencia, estado string pagado|pendiente|cancelado, referencia string nullable, created_at, updated_at, id_sucuesal)
+
+Descripción:
+Registro de pagos asociados a una orden, utilizado para control financiero y generación de tickets o recibos.
