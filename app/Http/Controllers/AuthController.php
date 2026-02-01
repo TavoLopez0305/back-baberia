@@ -48,7 +48,7 @@ class AuthController extends Controller
     }
 
 
-  public function login(Request $request)
+    public function login(Request $request)
     {
         try {
             $user = $this->authService->login($request->all());
@@ -79,6 +79,15 @@ class AuthController extends Controller
                 'message' => 'Error interno al intentar iniciar sesión'
             ], 500);
         }
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'message' => 'Sesión cerrada correctamente'
+        ], 200);
     }
 
 }
